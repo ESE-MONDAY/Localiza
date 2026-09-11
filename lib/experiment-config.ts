@@ -1,5 +1,5 @@
 export type CohortVariant = 'control' | 'annual_discount' | 'feature_bundle';
-export type CurrencyCode = 'USD' | 'EUR' | 'GBP';
+export type CurrencyCode = 'USD' | 'EUR' | 'GBP' | 'NGN';
 
 // Deterministic 32-bit FNV-1a hash
 export function hashStringToCohort(input: string): CohortVariant {
@@ -19,10 +19,13 @@ export const GEO_CURRENCY_MAP: Record<string, CurrencyCode> = {
   US: 'USD', CA: 'USD',
   DE: 'EUR', FR: 'EUR', ES: 'EUR', IT: 'EUR',
   GB: 'GBP',
+  NG: 'NGN',
+
 };
 
 export const CURRENCY_RATES: Record<CurrencyCode, { symbol: string; rate: number }> = {
   USD: { symbol: '$', rate: 1.0 },
   EUR: { symbol: '€', rate: 0.92 },
   GBP: { symbol: '£', rate: 0.79 },
+  NGN: { symbol: '₦', rate: 1600.0 }
 };

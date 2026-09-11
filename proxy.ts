@@ -80,7 +80,7 @@ export async function proxy(request: NextRequest) {
   // 5. Resolve Currency: Query override -> Country Map -> USD default
   const queryCurrency = searchParams.get('currency')?.toUpperCase() as CurrencyCode | undefined;
   const currency: CurrencyCode =
-    queryCurrency && ['USD', 'EUR', 'GBP'].includes(queryCurrency)
+    queryCurrency && ['USD', 'EUR', 'GBP', 'NGN'].includes(queryCurrency)
       ? queryCurrency
       : GEO_CURRENCY_MAP[country] || 'USD';
 

@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import { SharedSessionState, SupportedLocale } from './types';
+import { SharedSessionState } from './types';
 
 export const SESSION_COOKIE_NAME = 'x-micro-frontier-session';
 

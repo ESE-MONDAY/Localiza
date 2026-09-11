@@ -175,6 +175,17 @@ export default async function PricingPage({ params, searchParams }: Props) {
             >
               UK (£ GBP)
             </a>
+            {/* Added NG / NGN Button */}
+            <a
+              href={`/${locale}/pricing?country=NG`}
+              className={`px-2.5 py-1 rounded transition-colors ${
+                currency === 'NGN'
+                  ? 'bg-sky-500 text-slate-950 font-bold'
+                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+              }`}
+            >
+              NG (₦ NGN)
+            </a>
           </div>
         </div>
 
@@ -279,7 +290,7 @@ export default async function PricingPage({ params, searchParams }: Props) {
 
                 <div className="mt-4 mb-6 flex items-baseline gap-1">
                   <span className="text-4xl font-black text-slate-100">
-                    {symbol}{calculatedPrice}
+                    {symbol}{calculatedPrice.toLocaleString()}
                   </span>
                   <span className="text-xs text-slate-400 font-mono">/month</span>
                 </div>
