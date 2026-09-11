@@ -1,4 +1,4 @@
-#localiza
+# localiza
 
 A Next.js pricing architecture that eliminates client-side layout shifts and origin database lookups for multi-currency, A/B-tested paywalls.
 
