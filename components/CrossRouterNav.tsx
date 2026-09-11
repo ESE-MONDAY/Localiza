@@ -4,7 +4,7 @@ import React from 'react';
 import { useRouter as usePagesRouter } from 'next/router';
 import { useRouter as useAppRouter } from 'next/navigation';
 import { SupportedLocale } from '@/lib/types';
-import { setClientSession } from '@/shared-state';
+import { setClientSession } from '@/lib/shared-state';
 
 interface Props {
   href: string;

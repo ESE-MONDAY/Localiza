@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { headers, cookies } from 'next/headers';
 import Link from 'next/link';
 import { isSupportedLocale, SupportedLocale } from '@/lib/types';
-import { parseSessionCookie, SESSION_COOKIE_NAME } from '@/shared-state';
+import { parseSessionCookie, SESSION_COOKIE_NAME } from '@/lib/shared-state';
 import { CrossRouterNav } from '@/components/CrossRouterNav';
 import fs from 'fs';
 import path from 'path';
