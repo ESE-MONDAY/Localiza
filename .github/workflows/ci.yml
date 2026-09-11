@@ -1,4 +1,3 @@
-# .github/workflows/ci.yml
 name: Edge Gateway Verification & CI
 
 on:
@@ -12,10 +11,6 @@ jobs:
     name: Playwright Edge Matrix (14 Tests)
     runs-on: ubuntu-latest
     timeout-minutes: 15
-
-    env:
-      EDGE_SECRET_KEY: ${{ secrets.EDGE_SECRET_KEY != '' && secrets.EDGE_SECRET_KEY || 'ci-test-secure-random-32-byte-hex-key-0123456789abcdef' }}
-      NODE_ENV: test
 
     steps:
       - name: Checkout Repository
@@ -44,6 +39,15 @@ jobs:
       - name: Install Playwright OS System Dependencies
         if: steps.playwright-cache.outputs.cache-hit == 'true'
         run: npx playwright install-deps chromium
+
+      - name: Configure CI Environment Variables
+        run: |
+          SECRET="${{ secrets.EDGE_SECRET_KEY }}"
+          if [ -z "$SECRET" ]; then
+            SECRET="0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          fi
+          echo "EDGE_SECRET_KEY=$SECRET" >> $GITHUB_ENV
+          echo "NODE_ENV=test" >> $GITHUB_ENV
 
       - name: Build Next.js Production Bundle
         run: npm run build
