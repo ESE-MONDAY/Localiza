@@ -1,0 +1,60 @@
+# .github/workflows/ci.yml
+name: Edge Gateway Verification & CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  test-and-verify:
+    name: Playwright Edge Matrix (14 Tests)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    env:
+      EDGE_SECRET_KEY: ${{ secrets.EDGE_SECRET_KEY != '' && secrets.EDGE_SECRET_KEY || 'ci-test-secure-random-32-byte-hex-key-0123456789abcdef' }}
+      NODE_ENV: test
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Cache Playwright Browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
+
+      - name: Install Playwright Chromium & OS Dependencies
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+
+      - name: Install Playwright OS System Dependencies
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
+
+      - name: Build Next.js Production Bundle
+        run: npm run build
+
+      - name: Execute Comprehensive Edge Test Suite
+        run: npx playwright test
+
+      - name: Upload Test Report Artifacts (On Failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
